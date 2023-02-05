@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Pressable, View, StyleSheet, Text } from 'react-native';
@@ -32,6 +32,10 @@ export default function App() {
   const [quotes, setQuotes] = useState(data);
   const [showNewDialog, setShowNewDialog] = useState(false);
 
+  useEffect(() => {
+    loadQuotes();
+  }, []) 
+
   const quote = quotes[index];
 
   function addQuoteToList(text, author) {
@@ -51,13 +55,12 @@ export default function App() {
       let quotesFromDB = await AsyncStorage.getItem('QUOTES');
       if (quotesFromDB !== null) {
         quotesFromDB = JSON.parse(quotesFromDB);
-        console.log("Anzahl der Ziatte: " + quotesFromDB.length);
+       setQuotes(quotesFromDB);
         
 
       }
     }
-    loadQuotes();
-
+ 
    
   return (
     <View style={styles.container}>
